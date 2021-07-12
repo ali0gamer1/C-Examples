@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <limits.h>
 
 
 char *inputString(FILE* fp, size_t size){
@@ -21,7 +22,7 @@ char *inputString(FILE* fp, size_t size){
 }
 
 struct linkedlist{
-    int repeat;
+    short repeat;
     char val;
     struct linkedlist *next;
 };
@@ -29,7 +30,7 @@ struct linkedlist{
 
 
 
-struct linkedlist *addtolist(struct linkedlist *root, char c, int count)
+struct linkedlist *addtolist(struct linkedlist *root, char c, short count)
 {
 
 
@@ -64,12 +65,19 @@ struct linkedlist *strtotree(char *str)
     }
 
     char c = *str;
-    int count = 1;
+    short count = 1;
 
     for (int i = 1;i < _strlen;i++)
     {
         if (str[i] == c)
         {
+            if (count == SHRT_MAX)
+            {
+                counter++;
+                root = addtolist(root, c, count);
+                c = str[i];
+                count = 0;
+            }
             count++;
         }
         else
@@ -89,7 +97,8 @@ struct linkedlist *strtotree(char *str)
 }
 
 void print( struct linkedlist  *head) {
-     struct linkedlist  *current_node = head;
+
+    struct linkedlist  *current_node = head;
    	while ( current_node != NULL) {
 
         for(int i = 0 ;i < current_node->repeat;i++)
@@ -98,11 +107,12 @@ void print( struct linkedlist  *head) {
 
         }
 
-
-
         current_node = current_node->next;
     }
 }
+
+
+
 
 
 
@@ -110,7 +120,7 @@ int main(int argc, char **argv)
 {
     struct linkedlist *root;
 
-    char *str = "dddddddddddddddaaa";
+    char *str = "ds";
 
     root = strtotree(str);
 
