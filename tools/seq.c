@@ -2,7 +2,6 @@
 #include <unistd.h>
 
 /*
-    TODO: implement other options, bug fix, potential memory problems, better handling for options' arguments
     TODO: implement other options, bug fix, fix potential memory problems, better handling for options' arguments
 */
 
