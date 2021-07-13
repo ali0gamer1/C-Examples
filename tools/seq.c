@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
+/*
+    TODO: implement other options, bug fix, potential memory problems, better handling for options' arguments
+*/
 
 void unescape(char *str)
 {
