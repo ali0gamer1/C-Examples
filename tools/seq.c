@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-/*
-    TODO: implement other options, bug fix, fix potential memory problems, better handling for options' arguments
-*/
 
 void unescape(char *str)
 {
@@ -99,8 +96,8 @@ int main(int argc, char *argv[])
 
         if (wdth)
         {
-            pad = malloc(strlen(argv[optind]) + 2 + strlen(sep));
-            sprintf(pad,"%%0%dd%s",strlen(argv[optind]),sep);
+            pad = malloc(strlen(argv[optind]) + 2 );
+            sprintf(pad,"%%0%dd",strlen(argv[optind]));
         }
 
 
@@ -110,8 +107,9 @@ int main(int argc, char *argv[])
             {
                 printf(pad,i+1);
             }else
-                printf("%d%s", i+1, sep);
+                printf("%d", i+1);
 
+            printf("%s",sep);
         }
 
     }else
@@ -121,8 +119,8 @@ int main(int argc, char *argv[])
 
         if (wdth)
         {
-            pad = malloc(strlen(argv[optind + 1]) + 2 + strlen(sep));
-            sprintf(pad,"%%0%dd%s",strlen(argv[optind+1]),sep);
+            pad = malloc(strlen(argv[optind + 1]) + 2);
+            sprintf(pad,"%%0%dd",strlen(argv[optind+1]));
         }
 
         int from = atoi(argv[optind]);
@@ -134,8 +132,9 @@ int main(int argc, char *argv[])
             {
                 printf(pad,from);
             }else
-                printf("%d%s",from, sep);
+                printf("%d",from);
 
+            printf("%s",sep);
         }
     }else
     if (count == 3)
@@ -145,8 +144,8 @@ int main(int argc, char *argv[])
         if (wdth)
         {
 
-            pad = malloc(strlen(argv[optind+2]) + 2 + strlen(sep));
-            sprintf(pad,"%%0%dd%s",strlen(argv[optind+2]), sep);
+            pad = malloc(strlen(argv[optind+2]) + 2);
+            sprintf(pad,"%%0%dd",strlen(argv[optind+2]));
         }
 
         int from = atoi(argv[optind]);
@@ -159,8 +158,8 @@ int main(int argc, char *argv[])
             {
                 printf(pad,from);
             }else
-                printf("%d%s",from, sep);
-
+                printf("%d",from);
+            printf("%s",sep);
         }
     }
 
