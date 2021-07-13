@@ -1,9 +1,20 @@
 #include <stdio.h>
 #include <unistd.h>
 
-/*
-    TODO: implement other options, bug fix, fix potential memory problems, better handling for options' arguments
-*/
+
+char isnum(char *str)
+{
+    while(*str != 0){
+
+        if (!isdigit(*str++))
+        {
+            return 0;
+        }
+
+    }
+
+    return 1;
+}
 
 void unescape(char *str)
 {
@@ -81,8 +92,6 @@ int main(int argc, char *argv[])
         }
     }
 
-
-
     // handle non-option integers
     int count = argc - optind;
 
@@ -94,7 +103,7 @@ int main(int argc, char *argv[])
 
     if (count == 1)
     {
-        int till= atoi(argv[optind]);
+        int till;
         char *pad;
 
         if (wdth)
@@ -103,6 +112,7 @@ int main(int argc, char *argv[])
             sprintf(pad,"%%0%dd",strlen(argv[optind]));
         }
 
+        till = atoi(argv[optind]);
 
         for(int i = 0;i<till;i++)
         {
@@ -112,13 +122,18 @@ int main(int argc, char *argv[])
             }else
                 printf("%d", i+1);
 
-            printf("%s",sep);
+            if (i+1 < till)
+            {
+                printf("%s",sep);
+            }
+
         }
 
     }else
     if (count == 2)
     {
         char *pad;
+        int from, till;
 
         if (wdth)
         {
@@ -126,8 +141,14 @@ int main(int argc, char *argv[])
             sprintf(pad,"%%0%dd",strlen(argv[optind+1]));
         }
 
-        int from = atoi(argv[optind]);
-        int till = atoi(argv[optind+1]);
+        if (!isnum(argv[optind]) && !isnum(argv[optind + 1]))
+        {
+            fprintf(stderr,"ridi dawsh man\n");
+            exit(1);
+        }
+
+        from = atoi(argv[optind]);
+        till = atoi(argv[optind+1]);
 
         for(;from<=till;from++)
         {
@@ -137,23 +158,33 @@ int main(int argc, char *argv[])
             }else
                 printf("%d",from);
 
-            printf("%s",sep);
+            if (from<till)
+            {
+                printf("%s",sep);
+            }
         }
     }else
     if (count == 3)
     {
         char *pad;
+        int from, till, step;
+
 
         if (wdth)
         {
-
             pad = malloc(strlen(argv[optind+2]) + 2);
             sprintf(pad,"%%0%dd",strlen(argv[optind+2]));
         }
 
-        int from = atoi(argv[optind]);
-        int step = atoi(argv[optind+1]);
-        int till = atoi(argv[optind+2]);
+        if (!isnum(argv[optind]) && !isnum(argv[optind + 1]) && !isnum(argv[optind + 2]))
+        {
+            fprintf(stderr,"ridi dawsh man\n");
+            exit(1);
+        }
+
+        from = atoi(argv[optind]);
+        step = atoi(argv[optind+1]);
+        till = atoi(argv[optind+2]);
 
         for(;from<=till;from+=step)
         {
@@ -165,7 +196,6 @@ int main(int argc, char *argv[])
             printf("%s",sep);
         }
     }
-
+    puts("");
     return 0;
-
 }
