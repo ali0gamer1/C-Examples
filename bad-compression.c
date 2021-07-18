@@ -26,7 +26,7 @@ struct linkedlist *addtolist(struct linkedlist *root, char c, short count)
 }
 
 
-struct linkedlist *strtotree(char *str)
+struct linkedlist *strtolist(char *str)
 {
     int _strlen = strlen(str) + 1;
     struct linkedlist *root = NULL;
@@ -104,7 +104,7 @@ int main(int argc, char **argv)
 {
     struct linkedlist *root;
     char *str = "aaaaaaaaaaaaaaaaffffffffffffffffffffffffffffffffffffffffffffffffffffffsdafasfasa";
-    root = strtotree(str);
+    root = strtolist(str);
     FILE *file = fopen("testmedad","wb");
     save(root,file);
     fclose(file);
