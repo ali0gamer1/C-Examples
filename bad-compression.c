@@ -50,7 +50,6 @@ struct linkedlist *strtolist(char *str)
         }
         else
         {
-            counter++;
             root = addtolist(root, c, count);
             c = str[i];
             count = 1;
