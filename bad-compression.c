@@ -1,6 +1,35 @@
 #include <stdio.h>
 #include <limits.h>
 
+
+char *inputString(FILE* fp, size_t size){
+//The size is extended by the input with the value of the provisional
+    char *str;
+    int ch;
+    size_t len = 0;
+    str = realloc(NULL, sizeof(*str)*size);//size is start size
+    if(!str)return str;
+    while(EOF!=(ch=fgetc(fp)) && ch != '\n'){
+        str[len++]=ch;
+        if(len==size){
+            str = realloc(str, sizeof(*str)*(size+=16));
+            if(!str)return str;
+        }
+    }
+    str[len++]='\0';
+
+    return realloc(str, sizeof(*str)*len);
+}
+
+struct linkedlist{
+    short repeat;
+    char val;
+    struct linkedlist *next;
+};
+
+
+
+
 struct linkedlist *addtolist(struct linkedlist *root, char c, short count)
 {
 
@@ -82,17 +111,28 @@ void print( struct linkedlist  *head) {
     }
 }
 
+void save( struct linkedlist  *head,FILE *file) {
+
+    struct linkedlist  *current_node = head;
+   	while ( current_node != NULL)
+    {
+        fwrite(&current_node->repeat,sizeof(current_node->repeat),1,file);
+        fwrite(&current_node->val,sizeof(current_node->val),1,file);
+
+        current_node = current_node->next;
+    }
+}
 
 void doit(FILE *file)
 {
-    int stat1, stat2;
+
     short repeat;
     char val;
-    stat1 = fread(&repeat,sizeof(repeat),1,file);
-    stat2 = fread(&val,sizeof(val),1,file);
+    fread(&repeat,sizeof(repeat),1,file);
+    fread(&val,sizeof(val),1,file);
 
 
-    if (stat1 == sizeof(repeat) || stat2 == sizeof(val))
+    if (!feof(file))
     {
 
         for (int i = 0;i<repeat;i++)
@@ -103,6 +143,7 @@ void doit(FILE *file)
         doit(file);
     }
 
+
 }
 
 
@@ -112,18 +153,15 @@ int main(int argc, char **argv)
 {
     struct linkedlist *root;
 
-    char *str = "daa";
+    char *str = "aaaaaaaaaaaaaaaaffffffffffffffffffffffffffffffffffffffffffffffffffffffsdafasfasa";
 
     root = strtotree(str);
 
     FILE *file = fopen("testmedad","wb");
 
 
-    fwrite(&root->repeat,sizeof(root->repeat),1,file);
-    fwrite(&root->val,sizeof(root->val),1,file);
+    save(root,file);
 
-    fwrite(&root->next->repeat,sizeof(root->repeat),1,file);
-    fwrite(&root->next->val,sizeof(root->val),1,file);
     fclose(file);
 
     FILE *file2 = fopen("testmedad","rb");
