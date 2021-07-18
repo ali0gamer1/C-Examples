@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <limits.h>
 
+
+struct linkedlist{
+    short repeat;
+    char val;
+    struct linkedlist *next;
+};
+
+
 struct linkedlist *addtolist(struct linkedlist *root, char c, short count)
 {
     if(root == NULL)
