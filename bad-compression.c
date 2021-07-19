@@ -40,7 +40,7 @@ struct linkedlist *strtolist(char *str)
     {
         if (str[i] == c)
         {
-            if (count == SHRT_MAX)
+            if (count == UCHAR_MAX)
             {
                 root = addtolist(root, c, count);
                 c = str[i];
